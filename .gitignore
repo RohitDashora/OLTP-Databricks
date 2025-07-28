@@ -1,0 +1,256 @@
+# OLTP-Databricks Project .gitignore
+# ======================================
+
+# Environment and credential files
+# ======================================
+export_my_env.sh
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+
+# Python
+# ======================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+# ======================================
+pgconnect/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.venv.bak/
+
+# IDE and Editor files
+# ======================================
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+.brackets.json
+
+# Vim/Neovim
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+# ======================================
+.ipynb_checkpoints
+*.ipynb
+
+# Python version management
+# ======================================
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Task runners and build tools
+# ======================================
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# Documentation
+# ======================================
+# mkdocs documentation
+/site
+/docs/_build/
+
+# Type checking and linting
+# ======================================
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Database files
+# ======================================
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+
+# Logs and debugging
+# ======================================
+*.log
+logs/
+debug/
+*.debug
+
+# OS generated files
+# ======================================
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# Temporary files
+# ======================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.pid
+*.seed
+*.pid.lock
+
+# Backup files
+# ======================================
+*.bak
+*.backup
+*.old
+*.orig
+
+# Databricks specific
+# ======================================
+.databricks/
+databricks-connect.json
+databricks-connect.log
+.databrickscfg
+databricks-connect-test.log
+
+# Secrets and credentials
+# ======================================
+secrets/
+credentials/
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.csr
+*.pem
+*.p7b
+*.p8
+*.p10
+*.p12
+*.pfx
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+*.p7b
+*.p8
+*.p10
+*.p12
+*.pfx
+
+# Data files (uncomment if you don't want to track data)
+# ======================================
+# *.csv
+# *.json
+# *.parquet
+# *.avro
+# *.orc
+# *.xlsx
+# *.xls
+
+# Project specific
+# ======================================
+# Test coverage
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+.mypy_cache/
+
+# Local configuration overrides
+config_local.py
+settings_local.py
+
+# Database connection test files
+connection_test.log
+db_test_results.json
+
+# Performance profiling
+*.prof
+*.profile
+
+# Memory dumps
+*.hprof
+*.dump
+
+# Cache directories
+.cache/
+cache/
+
+# Local development files
+local_*
+dev_*
+test_* 

@@ -1,0 +1,12 @@
+# Core database dependencies
+psycopg2-binary>=2.9.5
+pandas>=2.0.0
+python-dotenv>=1.0.0
+sqlalchemy>=2.0.0
+
+# Development and utility packages
+numpy>=1.24.0
+python-dateutil>=2.8.0
+
+# Alternative PostgreSQL driver if psycopg2 fails
+# asyncpg>=0.28.0 
