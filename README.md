@@ -5,7 +5,11 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
+> **⚠️ Demo Code Warning**: This is a **demonstration project** for educational and testing purposes. It is **not intended for production use** or distribution as a Python package/wheel.
+
 A comprehensive Python solution for connecting to and managing PostgreSQL databases hosted on Databricks. This project provides a robust database manager class with table creation, data insertion, querying, and advanced SQL operations.
+
+**Purpose**: This repository serves as a learning resource and proof-of-concept for PostgreSQL integration with Databricks, demonstrating best practices for database management in Python.
 
 ## 🚀 Features
 
@@ -17,7 +21,7 @@ A comprehensive Python solution for connecting to and managing PostgreSQL databa
 - **Error Handling**: Comprehensive error handling and logging
 - **Connection Pooling**: Efficient connection management
 - **Environment-based Configuration**: Secure credential management
-- **Modern Python Packaging**: Proper package structure with src layout
+- **Demo Structure**: Educational project structure with examples and documentation
 
 ## ⚡ Quick Start
 
@@ -74,8 +78,7 @@ OLTP-Databricks/
 ├── docs/                         # Documentation
 ├── tests/                        # Test suite
 ├── requirements.txt              # Dependencies
-├── setup.py                      # Package setup
-├── pyproject.toml                # Modern Python packaging
+├── setup.py                      # Demo project setup (not for distribution)
 ├── .pre-commit-config.yaml       # Code quality hooks
 ├── LICENSE                       # MIT License
 ├── CONTRIBUTING.md               # Contributing guidelines
@@ -85,7 +88,7 @@ OLTP-Databricks/
 
 ## 🧪 Running All Examples
 
-You can run all example scripts from the `examples/` directory. Each script demonstrates a different feature of the package. For example:
+You can run all example scripts from the `examples/` directory. Each script demonstrates a different feature of the demo project. For example:
 
 ```bash
 python examples/database_manager.py
@@ -94,7 +97,7 @@ python examples/insert_data.py
 python examples/quick_insert.py
 ```
 
-> **Note:** The `database_manager.py` example now uses a unique table name for each run to avoid conflicts.
+> **Note:** The `database_manager.py` example now uses a unique table name for each run to avoid conflicts. Remember, this is demo code for learning purposes.
 
 ## 🧹 Cleaning Up Demo Tables
 
@@ -161,6 +164,12 @@ A:
 - Use the import style: `from oltp_databricks.database_manager import DatabaseManager`
 - Add a docstring at the top explaining what your script does.
 - Test your script and submit a pull request!
+
+**Q: Can I use this in production?**
+A: **No, this is demo code only.** This project is designed for educational purposes and learning PostgreSQL integration with Databricks. For production use, you should implement proper error handling, security measures, and follow your organization's coding standards.
+
+**Q: Can I package this as a Python wheel?**
+A: **No, this is not intended for distribution.** While the project has a `setup.py` and `pyproject.toml`, these are for demonstration purposes only. This is educational code meant to be cloned and run locally for learning.
 
 ## 📄 License
 
