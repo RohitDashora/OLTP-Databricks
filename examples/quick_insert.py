@@ -5,18 +5,20 @@ Quick and simple data insertion script for PostgreSQL database using OLTP-Databr
 
 Features:
 - Non-interactive bulk data insertion
+- Automatic table creation if they don't exist
 - Quick setup of sample data for all tables
 - Single function execution for rapid prototyping
-- Sample data for users, products, orders, order_items, employees, departments
+- Sample data for users, products, orders, order_items, employees, departments, projects
 
 Tables covered:
 - users, products, orders, order_items
-- employees, departments
+- employees, departments, projects
 
 Note:
-- If you run this script multiple times, you may see duplicate key errors or 'table already exists' errors.
-- To avoid this, clean up demo tables between runs (see README FAQ), or use unique data.
-- This script is designed for quick setup and may not handle all duplicate scenarios.
+- Tables are automatically created if they don't exist
+- If you run this script multiple times, you may see duplicate key errors for unique constraints
+- To avoid this, clean up demo tables between runs (see README FAQ), or use unique data
+- This script is designed for quick setup and may not handle all duplicate scenarios
 """
 
 from datetime import datetime, date, timedelta
@@ -25,23 +27,114 @@ from oltp_databricks.config import DB_CONFIG
 import random
 
 
+def create_all_tables(db_manager: DatabaseManager):
+    """Create all necessary tables if they don't exist"""
+    print("🔨 Creating tables if they don't exist...")
+    
+    # Users table
+    users_columns = [
+        {'name': 'user_id', 'type': 'SERIAL PRIMARY KEY'},
+        {'name': 'username', 'type': 'VARCHAR(50) UNIQUE NOT NULL'},
+        {'name': 'email', 'type': 'VARCHAR(100) UNIQUE NOT NULL'},
+        {'name': 'created_at', 'type': 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP'},
+        {'name': 'is_active', 'type': 'BOOLEAN DEFAULT TRUE'}
+    ]
+    
+    # Products table
+    products_columns = [
+        {'name': 'product_id', 'type': 'SERIAL PRIMARY KEY'},
+        {'name': 'name', 'type': 'VARCHAR(100) NOT NULL'},
+        {'name': 'description', 'type': 'TEXT'},
+        {'name': 'price', 'type': 'DECIMAL(10,2) NOT NULL'},
+        {'name': 'category', 'type': 'VARCHAR(50)'},
+        {'name': 'stock_quantity', 'type': 'INTEGER DEFAULT 0'}
+    ]
+    
+    # Orders table
+    orders_columns = [
+        {'name': 'order_id', 'type': 'SERIAL PRIMARY KEY'},
+        {'name': 'user_id', 'type': 'INTEGER REFERENCES users(user_id)'},
+        {'name': 'order_date', 'type': 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP'},
+        {'name': 'total_amount', 'type': 'DECIMAL(10,2) NOT NULL'},
+        {'name': 'status', 'type': 'VARCHAR(20) DEFAULT \'pending\''}
+    ]
+    
+    # Order items table
+    order_items_columns = [
+        {'name': 'order_item_id', 'type': 'SERIAL PRIMARY KEY'},
+        {'name': 'order_id', 'type': 'INTEGER REFERENCES orders(order_id)'},
+        {'name': 'product_id', 'type': 'INTEGER REFERENCES products(product_id)'},
+        {'name': 'quantity', 'type': 'INTEGER NOT NULL'},
+        {'name': 'unit_price', 'type': 'DECIMAL(10,2) NOT NULL'}
+    ]
+    
+    # Employees table
+    employees_columns = [
+        {'name': 'employee_id', 'type': 'SERIAL PRIMARY KEY'},
+        {'name': 'first_name', 'type': 'VARCHAR(50) NOT NULL'},
+        {'name': 'last_name', 'type': 'VARCHAR(50) NOT NULL'},
+        {'name': 'email', 'type': 'VARCHAR(100) UNIQUE NOT NULL'},
+        {'name': 'department', 'type': 'VARCHAR(50)'},
+        {'name': 'salary', 'type': 'DECIMAL(10,2)'},
+        {'name': 'hire_date', 'type': 'DATE DEFAULT CURRENT_DATE'}
+    ]
+    
+    # Departments table
+    departments_columns = [
+        {'name': 'department_id', 'type': 'SERIAL PRIMARY KEY'},
+        {'name': 'department_name', 'type': 'VARCHAR(50) UNIQUE NOT NULL'},
+        {'name': 'location', 'type': 'VARCHAR(100)'},
+        {'name': 'budget', 'type': 'DECIMAL(12,2)'}
+    ]
+    
+    # Projects table
+    projects_columns = [
+        {'name': 'project_id', 'type': 'SERIAL PRIMARY KEY'},
+        {'name': 'project_name', 'type': 'VARCHAR(100) NOT NULL'},
+        {'name': 'description', 'type': 'TEXT'},
+        {'name': 'start_date', 'type': 'DATE'},
+        {'name': 'end_date', 'type': 'DATE'},
+        {'name': 'status', 'type': 'VARCHAR(20) DEFAULT \'active\''}
+    ]
+    
+    # All tables with their columns
+    tables = [
+        ('users', users_columns),
+        ('products', products_columns),
+        ('orders', orders_columns),
+        ('order_items', order_items_columns),
+        ('employees', employees_columns),
+        ('departments', departments_columns),
+        ('projects', projects_columns)
+    ]
+    
+    for table_name, columns in tables:
+        if db_manager.create_table(table_name, columns):
+            print(f"✅ Table '{table_name}' created/verified")
+        else:
+            print(f"⚠️  Table '{table_name}' already exists or creation failed")
+
+
 def quick_insert_all_data():
     """Quickly insert sample data into all tables"""
     print("🚀 Quick Data Insertion")
     print("=" * 40)
     
-    # Get password from config
+    # Check if password is available in config
     password = DB_CONFIG.get('password')
     if not password:
         print("❌ No password found in config.py")
         return
     
     # Initialize database manager
-    db_manager = DatabaseManager(password=password)
+    db_manager = DatabaseManager()
     
     if not db_manager.connect():
         print("❌ Failed to connect to database")
         return
+    
+    # Create all tables first
+    create_all_tables(db_manager)
     
     try:
         print("📝 Inserting sample data into all tables...")
@@ -152,17 +245,20 @@ def insert_single_row():
     print("🎯 Single Row Insertion")
     print("=" * 30)
     
-    # Get password from config
+    # Check if password is available in config
     password = DB_CONFIG.get('password')
     if not password:
         print("❌ No password found in config.py")
         return
     
-    db_manager = DatabaseManager(password=password)
+    db_manager = DatabaseManager()
     
     if not db_manager.connect():
         print("❌ Failed to connect to database")
         return
+    
+    # Create all tables first
+    create_all_tables(db_manager)
     
     try:
         # Example: Insert a single user

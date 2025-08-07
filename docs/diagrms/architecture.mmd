@@ -1,0 +1,21 @@
+graph TD
+    subgraph "Local Development Environment"
+        A["User"] -- "runs" --> B{"Python Scripts<br/>(examples/)"}
+        B -- "imports" --> C["oltp_databricks Package<br/>(src/database_manager.py)"]
+        C -- "reads config from" --> D["Environment Variables<br/>(sourced from scripts/export_my_env.sh)"]
+    end
+
+    subgraph "Databricks Cloud"
+        F["Databricks Workspace"]
+        subgraph F
+            G["Lakebase Instance<br/>(Managed PostgreSQL)"]
+            subgraph G
+                H["Database (e.g., postgres)"]
+                I["Tables"]
+            end
+        end
+    end
+
+    C -- "connects via" --> E{"psycopg2 / SQLAlchemy<br/>SSL Connection"}
+    E -- "authenticates with" --> G
+    B -- "performs CRUD on" --> I

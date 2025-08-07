@@ -53,20 +53,33 @@ A comprehensive Python solution for connecting to and managing PostgreSQL databa
    python -m oltp_databricks.test_env_config
    ```
 
-5. **Run an example:**
+5. **🚀 Set up database tables (REQUIRED FIRST STEP):**
+   ```bash
+   python examples/quick_insert.py
+   ```
+   Choose option 1 to create all tables and insert sample data. This is required before running any other examples.
+
+6. **Run other examples:**
    ```bash
    python examples/database_manager.py
+   python examples/example_queries.py
+   python examples/insert_data.py
    ```
 
 ## 📜 Available Scripts
 
+### 🚀 Required First Step
+- `python examples/quick_insert.py`            — **REQUIRED**: Create all database tables and insert sample data
+
+### 🔧 Setup and Testing
 - `python -m oltp_databricks.test_env_config`  — Test environment configuration
 - `python examples/test_connection.py`         — Test connection
 - `python examples/connect_with_password.py`   — Test connection with password
+
+### 📊 Examples and Demonstrations
 - `python examples/database_manager.py`        — Run basic example (uses a unique table name)
 - `python examples/example_queries.py`         — Run advanced queries
 - `python examples/insert_data.py`             — Interactive data insertion
-- `python examples/quick_insert.py`            — Quick data insertion
 
 ## 🗂️ Project Structure
 
@@ -86,22 +99,77 @@ OLTP-Databricks/
 └── README.md                     # This file
 ```
 
+## 🚀 Getting Started Workflow
+
+### Step-by-Step Process
+
+1. **Environment Setup** (one-time)
+   ```bash
+   source scripts/activate_env.sh
+   python -m oltp_databricks.test_env_config
+   ```
+
+2. **Database Setup** (one-time, or after cleanup)
+   ```bash
+   python examples/quick_insert.py
+   # Choose option 1: "Quick insert all sample data"
+   ```
+
+3. **Run Examples** (can be done multiple times)
+   ```bash
+   python examples/example_queries.py
+   python examples/insert_data.py
+   python examples/database_manager.py
+   ```
+
+### What Each Step Does
+
+- **Step 1**: Sets up your Python environment and verifies database connectivity
+- **Step 2**: Creates all necessary database tables and populates them with sample data
+- **Step 3**: Demonstrates various database operations using the existing tables
+
 ## 🧪 Running All Examples
 
-You can run all example scripts from the `examples/` directory. Each script demonstrates a different feature of the demo project. For example:
+**⚠️ Important:** You must run `quick_insert.py` first to set up the database tables before running any other examples.
 
+### Step 1: Set up database tables (REQUIRED)
+```bash
+python examples/quick_insert.py
+# Choose option 1 to create all tables and insert sample data
+```
+
+### Step 2: Run other examples
 ```bash
 python examples/database_manager.py
 python examples/example_queries.py
 python examples/insert_data.py
-python examples/quick_insert.py
 ```
+
+Each script demonstrates a different feature of the demo project:
+
+- **`quick_insert.py`**: Creates all necessary tables and inserts sample data
+- **`database_manager.py`**: Basic database operations with unique table names
+- **`example_queries.py`**: Advanced SQL queries and data analysis
+- **`insert_data.py`**: Interactive data insertion and manipulation
 
 > **Note:** The `database_manager.py` example now uses a unique table name for each run to avoid conflicts. Remember, this is demo code for learning purposes.
 
 ## 🧹 Cleaning Up Demo Tables
 
 If you want to remove demo tables created by the examples, you can do so manually using a SQL client or by running a script that drops tables with a specific prefix (e.g., `sample_users_demo_*`).
+
+**To clean up all tables created by `quick_insert.py`:**
+```sql
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_items CASCADE;
+DROP TABLE IF EXISTS employees CASCADE;
+DROP TABLE IF EXISTS departments CASCADE;
+DROP TABLE IF EXISTS projects CASCADE;
+```
+
+**Note:** After cleaning up, you'll need to run `python examples/quick_insert.py` again before running other examples.
 
 ## 🔄 Updating Your Environment Variables
 
@@ -138,16 +206,21 @@ A: This means the example data or tables already exist in your database from a p
 - Use unique table names or data for each run (the basic example does this automatically)
 - Reset your environment (see below)
 
+**Q: Do I need to run `quick_insert.py` every time?**
+A: No, you only need to run `quick_insert.py` once to set up the database tables. After that, you can run other examples multiple times. If you clean up the tables, you'll need to run `quick_insert.py` again.
+
 **Q: How do I clean up demo tables?**
 A: Connect to your database and run:
 ```sql
-DROP TABLE IF EXISTS sample_users_demo CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_items CASCADE;
 DROP TABLE IF EXISTS employees CASCADE;
 DROP TABLE IF EXISTS departments CASCADE;
 DROP TABLE IF EXISTS projects CASCADE;
--- Add more as needed
 ```
-Or use a SQL client/GUI to drop tables.
+Or use a SQL client/GUI to drop tables. After cleaning up, run `python examples/quick_insert.py` again to recreate the tables.
 
 **Q: How do I reset my environment?**
 A:

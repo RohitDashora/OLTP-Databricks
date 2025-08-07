@@ -17,18 +17,27 @@ This guide explains how to use environment variables for database configuration 
    ```bash
    python -m oltp_databricks.test_env_config
    ```
+4. **🚀 Set up database tables (REQUIRED):**
+   ```bash
+   python examples/quick_insert.py
+   # Choose option 1 to create all tables and insert sample data
+   ```
 
 ## Cleaning Up Demo Tables
 
 If you run examples multiple times, you may need to clean up demo tables to avoid duplicate key or table exists errors. Connect to your database and run:
 ```sql
-DROP TABLE IF EXISTS sample_users_demo CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_items CASCADE;
 DROP TABLE IF EXISTS employees CASCADE;
 DROP TABLE IF EXISTS departments CASCADE;
 DROP TABLE IF EXISTS projects CASCADE;
--- Add more as needed
 ```
 Or use a SQL client/GUI to drop tables.
+
+**Note:** After cleaning up, you'll need to run `python examples/quick_insert.py` again to recreate the tables before running other examples.
 
 ## Resetting Your Environment
 

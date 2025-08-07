@@ -1,0 +1,31 @@
+sequenceDiagram
+    participant User
+    participant Script as "Example Script"
+    participant DBManager as "DatabaseManager"
+    participant Database
+    
+    User->>Script: 1. Execute script (e.g., python examples/database_manager.py)
+    Script->>DBManager: 2. Initialize DatabaseManager()
+    Script->>DBManager: 3. Call connect()
+    DBManager->>Database: 4. Open SSL Connection with credentials
+    Database-->>DBManager: 5. Connection established
+    DBManager-->>Script: 6. Return True (success)
+    
+    Script->>DBManager: 7. Call create_table()
+    DBManager->>Database: 8. Execute "CREATE TABLE..."
+    Database-->>DBManager: 9. Table created
+    DBManager-->>Script: 10. Return True
+    
+    Script->>DBManager: 11. Call insert_data()
+    DBManager->>Database: 12. Execute "INSERT INTO..."
+    Database-->>DBManager: 13. Data inserted
+    DBManager-->>Script: 14. Return True
+
+    Script->>DBManager: 15. Call query_to_dataframe()
+    DBManager->>Database: 16. Execute "SELECT * FROM..."
+    Database-->>DBManager: 17. Return query results
+    DBManager-->>Script: 18. Return pandas DataFrame
+
+    Script->>DBManager: 19. Call disconnect()
+    DBManager->>Database: 20. Close Connection
+    Database-->>DBManager: 21. Connection closed

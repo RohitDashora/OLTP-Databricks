@@ -67,6 +67,63 @@ export DATABRICKS_DB_SSLMODE="require"
    - Ensure your user has access to the specified database
    - Contact your Databricks admin if needed
 
+## Table Setup Issues
+
+### ❌ "relation 'users' does not exist" or similar table errors
+
+**Cause:** You haven't run the required setup script to create the database tables.
+
+**Solution:**
+1. **Run the required setup script:**
+   ```bash
+   python examples/quick_insert.py
+   # Choose option 1 to create all tables and insert sample data
+   ```
+
+2. **Verify tables were created:**
+   ```bash
+   python examples/test_connection.py
+   ```
+
+### ❌ "duplicate key value violates unique constraint"
+
+**Cause:** You're trying to insert data that violates unique constraints (e.g., duplicate usernames, emails).
+
+**Solutions:**
+1. **Clean up existing data:**
+   ```sql
+   DROP TABLE IF EXISTS users CASCADE;
+   DROP TABLE IF EXISTS products CASCADE;
+   DROP TABLE IF EXISTS orders CASCADE;
+   DROP TABLE IF EXISTS order_items CASCADE;
+   DROP TABLE IF EXISTS employees CASCADE;
+   DROP TABLE IF EXISTS departments CASCADE;
+   DROP TABLE IF EXISTS projects CASCADE;
+   ```
+
+2. **Recreate tables:**
+   ```bash
+   python examples/quick_insert.py
+   # Choose option 1
+   ```
+
+### ❌ "table already exists" errors
+
+**Cause:** Tables already exist from a previous run.
+
+**Solution:**
+The `quick_insert.py` script uses `CREATE TABLE IF NOT EXISTS`, so this error shouldn't occur. If it does:
+1. **Check if tables exist:**
+   ```bash
+   python examples/test_connection.py
+   ```
+
+2. **Clean up and recreate if needed:**
+   ```bash
+   # Connect to your database and drop tables, then run:
+   python examples/quick_insert.py
+   ```
+
 ## Environment Issues
 
 ### ❌ "ModuleNotFoundError: No module named 'oltp_databricks'"

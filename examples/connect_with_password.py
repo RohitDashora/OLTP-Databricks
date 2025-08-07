@@ -11,14 +11,14 @@ def test_connection_with_config():
     print("🔐 PostgreSQL Connection Test with Config Password")
     print("=" * 50)
     
-    # Get password from config
+    # Check if password is available in config
     password = DB_CONFIG.get('password')
     if not password:
         print("❌ No password found in config.py")
         return False
     
-    # Initialize database manager with password
-    db_manager = DatabaseManager(password=password)
+    # Initialize database manager
+    db_manager = DatabaseManager()
     
     if db_manager.connect():
         print("✅ Connection successful!")

@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant User
+    participant LocalMachine as "Local Machine"
+    participant Databricks
+    
+    User->>LocalMachine: 1. Clone Git Repository
+    User->>Databricks: 2. Create Lakebase Instance & Get Credentials
+    User->>LocalMachine: 3. Create 'export_my_env.sh' with credentials
+    User->>LocalMachine: 4. Run `source scripts/activate_env.sh`
+    
+    LocalMachine-->>User: Activates Python venv
+    LocalMachine-->>User: Installs dependencies
+    LocalMachine-->>User: Exports environment variables
+    
+    User->>LocalMachine: 5. Run `python examples/test_connection.py`
+    
+    LocalMachine->>Databricks: 6. Attempt Connection (SSL)
+    Databricks-->>LocalMachine: 7. Connection Successful
+    
+    LocalMachine-->>User: 8. Show Success Message

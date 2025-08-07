@@ -1,5 +1,23 @@
 # OLTP-Databricks API Documentation
 
+## 🚀 Required Setup
+
+**Before using the DatabaseManager, you must set up the database tables:**
+
+```bash
+python examples/quick_insert.py
+# Choose option 1 to create all tables and insert sample data
+```
+
+This creates the following tables:
+- `users` - User accounts and profiles
+- `products` - Product catalog
+- `orders` - Customer orders
+- `order_items` - Order line items
+- `employees` - Employee records
+- `departments` - Department information
+- `projects` - Project tracking
+
 ## DatabaseManager Class
 
 The main class for managing PostgreSQL database operations in Databricks.
@@ -9,18 +27,11 @@ The main class for managing PostgreSQL database operations in Databricks.
 ```python
 from oltp_databricks.database_manager import DatabaseManager
 
-# Initialize with password
-db_manager = DatabaseManager(password="your-password")
+# Initialize database manager (no parameters needed)
+db_manager = DatabaseManager()
 
-# Initialize with full config
-db_manager = DatabaseManager(
-    host="your-host",
-    user="your-user", 
-    password="your-password",
-    database="your-database",
-    port=5432,
-    sslmode="require"
-)
+# The DatabaseManager gets configuration from environment variables
+# Make sure your environment variables are set before connecting
 ```
 
 ### Connection Methods
